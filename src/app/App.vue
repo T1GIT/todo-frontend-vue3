@@ -2,6 +2,24 @@
   <router-view/>
 </template>
 
+
+<script lang="ts">
+import { defineComponent, onMounted } from 'vue';
+import { useStore } from "vuex";
+
+
+export default defineComponent({
+
+  setup() {
+    const store = useStore()
+
+    store.dispatch("auth/createFingerprint")
+
+    onMounted(() => store.commit('load'))
+  }
+});
+</script>
+
 <style lang="sass">
 
 html, body
