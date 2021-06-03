@@ -8,7 +8,7 @@ export const getters: GetterTree<AuthState, RootState> = {
     hasFingerprint(state: AuthState): boolean {
         return !!state.fingerprint
     },
-    fingerprint(state, AuthState): string {
+    fingerprint(state: AuthState): string {
         return state.fingerprint
     },
     authorisedUser(state: AuthState): User {

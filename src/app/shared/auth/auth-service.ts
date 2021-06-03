@@ -4,7 +4,7 @@ import User from "@/app/shared/models/User";
 import { authController, LoginForm, RegisterForm } from "@/app/shared/auth/auth-http";
 import useJwtService from "@/app/shared/auth/jwt-service";
 
-type AuthServiceReturnType = {
+export type AuthServiceReturnType = {
     authUser: ComputedRef<User>,
     isAuthenticated: ComputedRef<boolean>,
     register: (registerForm: RegisterForm) => Promise<User>,
@@ -12,10 +12,10 @@ type AuthServiceReturnType = {
     logout: () => Promise<void>
 }
 
-const useAuthService = function (): AuthServiceReturnType {
+export default function useAuthService (): AuthServiceReturnType {
     const store = useStore()
 
-    const fingerprint = computed(() => store.getters["auth/fingerprint"])
+    const fingerprint: ComputedRef<string> = computed(() => store.getters["auth/fingerprint"])
 
     const { startUpdateCycle, stopUpdateCycle } = useJwtService()
 
@@ -45,5 +45,3 @@ const useAuthService = function (): AuthServiceReturnType {
         }
     }
 }
-
-export default useAuthService

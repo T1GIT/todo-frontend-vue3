@@ -1,16 +1,16 @@
 import User, { Role } from "@/app/shared/models/User";
-import { computed, ComputedRef } from "vue";
-import { authController, LoginForm, RegisterForm } from "@/app/shared/auth/auth-http";
+import { computed } from "vue";
+import { authController } from "@/app/shared/auth/auth-http";
 import { useStore } from "vuex";
 
-type JwtPayload = {
+export type JwtPayload = {
     exp: number,
     iat: number,
     iss: string,
     aud: Role
 } & User
 
-async function parseJwt(token: string): Promise<JwtPayload> {
+export async function parseJwt(token: string): Promise<JwtPayload> {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
@@ -19,12 +19,12 @@ async function parseJwt(token: string): Promise<JwtPayload> {
     return JSON.parse(jsonPayload)
 }
 
-type JwtServiceReturnType = {
+export type JwtServiceReturnType = {
     startUpdateCycle: (jwt: string) => Promise<User>,
     stopUpdateCycle: () => void
 }
 
-const useJwtService = function (): JwtServiceReturnType {
+export default function useJwtService(): JwtServiceReturnType {
     const store = useStore()
 
     const fingerprint = computed(() => store.getters["auth/fingerprint"])
@@ -53,4 +53,3 @@ const useJwtService = function (): JwtServiceReturnType {
     }
 }
 
-export default useJwtService
